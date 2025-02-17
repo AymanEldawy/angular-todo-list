@@ -1,0 +1,26 @@
+<div class="card" [class]="isView ? '' : 'blur-sm'">
+  <div class="flex gap-2 items-center justify-between">
+    <h3 class="card-title">{{ todo.title }}</h3>
+    <button
+      aria-label="toggle bookmark"
+      (click)="toggleBookmark(todo.id)"
+      class="border h-7 w-7 rounded-md border-green-500 duration-200"
+      [class]="todo.is_bookmark ? 'bg-green-600' : ''"
+    >
+      <img src="/bookmark.svg" class="h-6 w-6" />
+    </button>
+  </div>
+
+  <p class="card-text">{{ todo.description }}</p>
+  <div class="card-footer">
+    <small class="card-date">{{ todo.date }}</small>
+    <button
+      [disabled]="!isView"
+      class="hover:text-white bg-gray-50 text-gray-600 border-primary-bg border text-sm px-2 py-1 capitalize rounded-md hover:bg-primary-bg"
+      (click)="onSelectItem()"
+    >
+      update
+    </button>
+    <!-- <a [routerLink]="['/update', todo.id]" (click)="onSelectItem()">update</a> -->
+  </div>
+</div>

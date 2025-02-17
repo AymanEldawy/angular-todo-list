@@ -1,0 +1,27 @@
+.todos {
+  margin: 20px 0;
+  gap: 10px;
+  columns: 5;
+  column-gap: 10px;
+  column-span: 10px;
+  @media (max-width: 991px) {
+    columns: 4;
+  }
+  @media (max-width: 767px) {
+    columns: 3;
+  }
+  @media (max-width: 500px) {
+    columns: 2;
+  }
+  @media (max-width: 375px) {
+    columns: 1;
+  }
+}
+
+.no-data {
+  margin-top: 20px;
+  background: rgba(#f00, 0.2);
+  padding: 10px;
+  color: rgba(#f00, 0.8);
+  border-radius: 0.25rem;
+}

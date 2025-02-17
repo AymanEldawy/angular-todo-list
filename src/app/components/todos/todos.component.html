@@ -1,0 +1,51 @@
+<!-- filepath: /e:/work/Programming Study/Now/FrontEnd Freamworks/angular-todo-list/src/app/components/todos/todos.component.html -->
+<div class="container">
+  <div class="grid grid-cols-5 gap-2 my-4 h-24">
+    <button
+      *ngIf="!openForm"
+      (click)="toggleForm()"
+      class="bg-primary-box hover:bg-primary-bg hover:border border-primary-box flex-col gap-2 w-full hover:shadow-inner inset-3 hover:scale-[98%] duration-200 text-white rounded-md flex items-center justify-center"
+    >
+      <img src="/plus-circle.svg" alt="add" class="w-10 h-10 invert" />
+      Add task
+    </button>
+    <button
+      (click)="isFiltered = false"
+      class="bg-primary-box rounded-md flex items-center justify-center text-2xl text-white"
+    >
+      {{ todos.length }} Tasks
+    </button>
+    <button
+      (click)="isFiltered = true"
+      class="bg-primary-box rounded-md flex items-center justify-center text-2xl text-white"
+    >
+      {{ bookmarksCount }} Bookmarks
+    </button>
+  </div>
+  <div *ngIf="filteredTodos.length; else noTodos" class="todos">
+    <div *ngFor="let todo of filteredTodos">
+      <app-todo-card
+        (select)="onSelectItem(todo)"
+        [todo]="todo"
+        [isView]="isView"
+        (toggleTodoBookmark)="toggleTodoBookmark($event)"
+      ></app-todo-card>
+    </div>
+  </div>
+</div>
+
+<ng-template #noTodos>
+  <p class="no-data text-center">There is no data</p>
+</ng-template>
+
+<ng-container *ngIf="openForm; else closed">
+  <app-add-todo
+    (toggleForm)="toggleForm()"
+    (addNewNote)="addNote($event)"
+    [selectedItem]="selectedItem"
+    (removeSelect)="onRemoveSelect()"
+    (updateNote)="updateNote($event)"
+  ></app-add-todo>
+</ng-container>
+
+<ng-template #closed></ng-template>

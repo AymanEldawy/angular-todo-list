@@ -1,0 +1,51 @@
+<div
+  role="dialog"
+  (click)="onClose()"
+  class="fixed top-0 left-0 w-full h-full z-10 bg-[#00000081] flex items-center justify-center"
+>
+  <div
+    class="bg-primary-bg p-4 rounded-md w-full max-w-md mx-auto"
+    (click)="$event.stopPropagation()"
+  >
+    <h3 class="text-white text-center capitalize mb-4 text-lg">Add todo</h3>
+    <form action="" (ngSubmit)="handleSubmit()" [formGroup]="form">
+      <div class="text-white flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+          <label>Title</label>
+          <input
+            type="text"
+            class="border rounded bg-primary-box border-none p-2"
+            formControlName="title"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label>Description</label>
+          <textarea
+            class="border rounded bg-primary-box border-none p-2"
+            formControlName="description"
+          ></textarea>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label>Date</label>
+          <input
+            type="date"
+            class="border rounded bg-primary-box border-none p-2"
+            formControlName="date"
+          />
+        </div>
+        <div class="flex gap-2 items-center">
+          <button
+            type="button"
+            (click)="onClose()"
+            class="bg-gray-100 text-gray-400 p-2 rounded-md text-sm w-20"
+          >
+            Cancel
+          </button>
+          <button class="bg-primary-btn p-2 rounded-md text-sm w-20">
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
