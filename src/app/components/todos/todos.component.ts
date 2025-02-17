@@ -3,7 +3,8 @@ import { TodoCardComponent } from '../todo-card/todo-card.component';
 import { ITodo } from '../../interfaces/todo.interface';
 import { CommonModule } from '@angular/common';
 import { AddTodoComponent } from '../add-todo/add-todo.component';
-
+import { StorageService } from './../../service/storage.service';
+import { TODO_DATA } from '../../utils/TODO-DATA';
 @Component({
   selector: 'app-todos',
   imports: [TodoCardComponent, CommonModule, AddTodoComponent],
@@ -15,44 +16,16 @@ export class TodosComponent {
   openForm: boolean = false;
   selectedItem!: null | ITodo;
   isFiltered: boolean = false;
+  storage: any;
+  todos: ITodo[] = TODO_DATA
 
-  todos: ITodo[] = [
-    {
-      id: 1,
-      title: 'First Object',
-      description: "This is the first object's description.",
-      date: '2025-01-03T12:00:00Z',
-      is_bookmark: false,
-    },
-    {
-      id: 2,
-      title: 'Second Object',
-      description: "This is the second object's description.",
-      date: '2025-01-04T09:30:00Z',
-      is_bookmark: false,
-    },
-    {
-      id: 3,
-      title: 'Third Object',
-      description: "This is the third object's description.",
-      date: '2025-01-05T15:45:00Z',
-      is_bookmark: false,
-    },
-    {
-      id: 4,
-      title: 'Fourth Object',
-      description: "This is the fourth object's description.",
-      date: '2025-01-06T18:00:00Z',
-      is_bookmark: false,
-    },
-    {
-      id: 5,
-      title: 'Fifth Object',
-      description: "This is the fifth object's description.",
-      date: '2025-01-07T10:00:00Z',
-      is_bookmark: false,
-    },
-  ];
+  constructor(private s: StorageService) {
+    this.storage = s;
+  }
+
+  ngOnInit() {
+    this.todos = this.storage.getItem('TODOS') || this.todos;
+  }
 
   get bookmarksCount() {
     return this.todos.filter((c) => c.is_bookmark).length;
@@ -65,27 +38,29 @@ export class TodosComponent {
     });
   }
 
-  ngOnInit() {}
-
   toggleForm() {
     this.openForm = !this.openForm;
-    console.log('called');
-    console.log(this.openForm, 'openForm');
   }
 
   addNote(value: ITodo): { success: boolean } {
-    console.log('called insert');
-    this.todos.unshift(value);
+    
+    this.todos.unshift({
+      ...value,
+      id: this.todos.length,
+    });
+
+    this.storage.setItem('TODOS', this.todos);
+
     return {
       success: true,
     };
   }
 
   updateNote(value: ITodo): { success: boolean } {
-    console.log('called update');
     let index = this.todos.findIndex((c) => c?.id == value?.id);
     if (index) {
       this.todos[index] = value;
+      this.storage.setItem('TODOS', this.todos);
       return {
         success: true,
       };
@@ -94,6 +69,11 @@ export class TodosComponent {
         success: false,
       };
     }
+  }
+
+  deleteNote(id: number) {
+    this.todos = this.todos.filter((t) => t.id !== id);
+    this.storage.setItem('TODOS', this.todos);
   }
 
   onSelectItem(item: ITodo) {
@@ -105,6 +85,7 @@ export class TodosComponent {
     let index = this.todos.findIndex((c) => c?.id === id);
     if (index) {
       this.todos[index].is_bookmark = !this.todos[index].is_bookmark;
+      this.storage.setItem('TODOS', this.todos);
       return {
         success: true,
       };

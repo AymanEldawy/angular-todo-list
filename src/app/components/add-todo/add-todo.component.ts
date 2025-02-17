@@ -30,8 +30,8 @@ export class AddTodoComponent {
     this.form = fb.group({
       // title: fb.control('', { validators: true }),
       title: ['', Validators.required],
-      description: ['', Validators.required],
-      date: ['', Validators.required],
+      description: [''],
+      date: [new Date().toISOString().substring(0, 10)],
     });
   }
 
@@ -41,7 +41,7 @@ export class AddTodoComponent {
 
   ngOnInit() {
     this.form.patchValue(this.selectedItem);
-    console.log('called oninit', this.selectedItem, this.form);
+    console.log('called oninit', this.form);
   }
 
   ngOnDestroy() {
@@ -51,6 +51,11 @@ export class AddTodoComponent {
   }
 
   handleSubmit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
     if (this.selectedItem?.id) {
       console.log(this.form.value, 'value', this.selectedItem);
       this.updateNote.emit({
@@ -61,10 +66,10 @@ export class AddTodoComponent {
       this.addNewNote.emit(this.form.value);
       console.log('called here insert');
       this.form.reset();
-      this.onClose()
+      this.onClose();
     }
   }
-  
+
   onClose() {
     this.toggleForm.emit();
   }

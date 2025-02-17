@@ -7,13 +7,13 @@
       class="bg-primary-box hover:bg-primary-bg hover:border border-primary-box flex-col gap-2 w-full hover:shadow-inner inset-3 hover:scale-[98%] duration-200 text-white rounded-md flex items-center justify-center"
     >
       <img src="/plus-circle.svg" alt="add" class="w-10 h-10 invert" />
-      Add task
+      Add Note
     </button>
     <button
       (click)="isFiltered = false"
       class="bg-primary-box rounded-md flex items-center justify-center text-2xl text-white"
     >
-      {{ todos.length }} Tasks
+      {{ todos.length }} Notes
     </button>
     <button
       (click)="isFiltered = true"
@@ -29,6 +29,7 @@
         [todo]="todo"
         [isView]="isView"
         (toggleTodoBookmark)="toggleTodoBookmark($event)"
+        (deleteTodo)="deleteNote($event)"
       ></app-todo-card>
     </div>
   </div>

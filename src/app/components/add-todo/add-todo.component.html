@@ -7,19 +7,25 @@
     class="bg-primary-bg p-4 rounded-md w-full max-w-md mx-auto"
     (click)="$event.stopPropagation()"
   >
-    <h3 class="text-white text-center capitalize mb-4 text-lg">Add todo</h3>
+    <h3 class="text-white text-center capitalize mb-4 text-lg">Add Note</h3>
     <form action="" (ngSubmit)="handleSubmit()" [formGroup]="form">
       <div class="text-white flex flex-col gap-4">
         <div class="flex flex-col gap-1">
-          <label>Title</label>
+          <label>Title <span class="text-red-500 px-1">*</span> </label>
           <input
             type="text"
             class="border rounded bg-primary-box border-none p-2"
             formControlName="title"
           />
+          <div
+            *ngIf="form.get('date')?.invalid && form.get('date')?.touched"
+            class="text-red-500"
+          >
+            title is required
+          </div>
         </div>
         <div class="flex flex-col gap-1">
-          <label>Description</label>
+          <label>Description </label>
           <textarea
             class="border rounded bg-primary-box border-none p-2"
             formControlName="description"
@@ -31,6 +37,7 @@
             type="date"
             class="border rounded bg-primary-box border-none p-2"
             formControlName="date"
+            [value]="form.get('date')?.value | date : 'yyyy-MM-dd'"
           />
         </div>
         <div class="flex gap-2 items-center">
@@ -41,7 +48,10 @@
           >
             Cancel
           </button>
-          <button class="bg-primary-btn p-2 rounded-md text-sm w-20">
+          <button
+            [disabled]="form.invalid"
+            class="bg-primary-btn p-2 disabled:bg-gray-50 disabled:text-gray-300 disabled:opacity-70 rounded-md text-sm w-20"
+          >
             Save
           </button>
         </div>

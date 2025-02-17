@@ -1,8 +1,9 @@
 <nav>
   <div class="container">
-    <a>TO-DO</a>
-    <div class="flex gap-9 items-center">
-      <span class="text-white">{{ today }}</span>
+    <h2 class="text-white font-semibold capitalize text-xl md:text-2xl">FAST 🚀 NOTE</h2>
+    <div class="flex gap-4 items-center">
+      <span class="text-white border-r-2 px-4">
+        {{today | date : "fullDate"}}</span>
       <button
         (click)="isView = !isView"
         class="text-white text-sm px-2 py-1 rounded-md font-medium capitalize"

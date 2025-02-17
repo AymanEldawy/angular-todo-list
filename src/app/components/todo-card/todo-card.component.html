@@ -1,25 +1,39 @@
 <div class="card" [class]="isView ? '' : 'blur-sm'">
-  <div class="flex gap-2 items-center justify-between">
-    <h3 class="card-title">{{ todo.title }}</h3>
+  <div class="flex gap-2 items-start justify-between">
+    <div class="">
+      <h3 class="capitalize text-lg text-white font-medium -mb-2">
+        {{ todo.title }}
+      </h3>
+      <small class="text-xs text-gray-400">{{
+        todo.date | date : "fullDate"
+      }}</small>
+    </div>
     <button
       aria-label="toggle bookmark"
       (click)="toggleBookmark(todo.id)"
-      class="border h-7 w-7 rounded-md border-green-500 duration-200"
-      [class]="todo.is_bookmark ? 'bg-green-600' : ''"
+      class="h-6 w-6 flex items-center justify-center rounded-md duration-200"
+      [class]="todo.is_bookmark ? 'bg-green-600' : 'bg-primary-bg'"
     >
-      <img src="/bookmark.svg" class="h-6 w-6" />
+      <img src="/bookmark.svg" class="h-4 w-4 invert" />
     </button>
   </div>
 
-  <p class="card-text">{{ todo.description }}</p>
-  <div class="card-footer">
-    <small class="card-date">{{ todo.date }}</small>
+  <p class="text-gray-200 text-sm leading-5 font-normal px-2 py-2">{{ todo.description }}</p>
+  <div
+    class="flex gap-2 justify-between items-center border-t pt-2 mt-2 border-primary-bg"
+  >
     <button
       [disabled]="!isView"
       class="hover:text-white bg-gray-50 text-gray-600 border-primary-bg border text-sm px-2 py-1 capitalize rounded-md hover:bg-primary-bg"
       (click)="onSelectItem()"
     >
       update
+    </button>
+    <button
+      class="border border-red-400 text-sm rounded-md bg-red-400"
+      (click)="onDelete(todo.id)"
+    >
+      <img src="trash-2.svg" class="h-6 w-6 px-1 invert" />
     </button>
     <!-- <a [routerLink]="['/update', todo.id]" (click)="onSelectItem()">update</a> -->
   </div>
