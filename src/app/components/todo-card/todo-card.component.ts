@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ITodo } from '../../interfaces/todo.interface';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TodoService } from '../todos/todo.service';
 
 @Component({
   selector: 'app-todo-card',
@@ -13,22 +14,20 @@ export class TodoCardComponent {
   @Input() isView!: boolean;
   @Input() todo!: ITodo;
   @Output() select = new EventEmitter();
-  @Output() toggleTodoBookmark = new EventEmitter<number>();
-  @Output() deleteTodo = new EventEmitter<number>();
+  // @Output() toggleTodoBookmark = new EventEmitter<number>();
+  // @Output() deleteTodo = new EventEmitter<number>();
 
-  // constructor() {
-  //   console.log(this.todo);
-  // }
+  constructor(private todos: TodoService) {}
 
   onSelectItem() {
     this.select.emit();
   }
 
   toggleBookmark(id: number) {
-    this.toggleTodoBookmark.emit(id);
+    this.todos.toggleTodoBookmark(id);
   }
 
   onDelete(id: number) {
-    this.deleteTodo.emit(id);
+    this.todos.deleteNote(id);
   }
 }

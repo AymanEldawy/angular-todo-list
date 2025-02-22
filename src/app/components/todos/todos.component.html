@@ -1,4 +1,4 @@
-<!-- filepath: /e:/work/Programming Study/Now/FrontEnd Freamworks/angular-todo-list/src/app/components/todos/todos.component.html -->
+<!-- filepath: /e:/work/Programming Study/Now/FrontEnd Freamworks/angular-todo-list/src/app/components/todos/todos.data.component.html -->
 <div class="container">
   <div class="grid grid-cols-5 gap-2 my-4 h-24">
     <button
@@ -13,7 +13,7 @@
       (click)="isFiltered = false"
       class="bg-primary-box rounded-md flex items-center justify-center text-2xl text-white"
     >
-      {{ todos.length }} Notes
+      {{ todosData.length }} Notes
     </button>
     <button
       (click)="isFiltered = true"
@@ -22,14 +22,12 @@
       {{ bookmarksCount }} Bookmarks
     </button>
   </div>
-  <div *ngIf="filteredTodos.length; else noTodos" class="todos">
-    <div *ngFor="let todo of filteredTodos">
+  <div *ngIf="filteredTodos; else noTodos" class="todos">
+    <div *ngFor="let todo of filteredTodos; trackBy: trackByTodoId">
       <app-todo-card
         (select)="onSelectItem(todo)"
         [todo]="todo"
         [isView]="isView"
-        (toggleTodoBookmark)="toggleTodoBookmark($event)"
-        (deleteTodo)="deleteNote($event)"
       ></app-todo-card>
     </div>
   </div>
@@ -42,10 +40,8 @@
 <ng-container *ngIf="openForm; else closed">
   <app-add-todo
     (toggleForm)="toggleForm()"
-    (addNewNote)="addNote($event)"
     [selectedItem]="selectedItem"
     (removeSelect)="onRemoveSelect()"
-    (updateNote)="updateNote($event)"
   ></app-add-todo>
 </ng-container>
 

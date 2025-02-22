@@ -11,6 +11,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ITodo } from '../../interfaces/todo.interface';
+import { TodosComponent } from '../todos/todos.component';
+import { TodoService } from '../todos/todo.service';
 
 @Component({
   selector: 'app-add-todo',
@@ -21,12 +23,12 @@ import { ITodo } from '../../interfaces/todo.interface';
 export class AddTodoComponent {
   form: any;
   @Output() toggleForm = new EventEmitter();
-  @Output() addNewNote = new EventEmitter();
-  @Output() updateNote = new EventEmitter();
+  // @Output() addNewNote = new EventEmitter();
+  // @Output() updateNote = new EventEmitter();
   @Output() removeSelect = new EventEmitter();
   @Input() selectedItem!: null | ITodo;
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, private todos: TodoService) {
     this.form = fb.group({
       // title: fb.control('', { validators: true }),
       title: ['', Validators.required],
@@ -58,12 +60,12 @@ export class AddTodoComponent {
 
     if (this.selectedItem?.id) {
       console.log(this.form.value, 'value', this.selectedItem);
-      this.updateNote.emit({
+      this.todos.updateNote({
         ...this.form.value,
         id: this.selectedItem?.id,
       });
     } else {
-      this.addNewNote.emit(this.form.value);
+      this.todos.addNote(this.form.value);
       console.log('called here insert');
       this.form.reset();
       this.onClose();
